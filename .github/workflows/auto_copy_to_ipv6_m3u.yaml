@@ -2,8 +2,8 @@ name: Copy File from Another Repo Daily
 
 on:
   schedule:
-    # - cron: '0 3 * * *' # 每天凌晨3点执行
-    - cron: '*/1 * * * *'
+    - cron: '0 3 * * *' # 每天凌晨3点执行
+    # - cron: '*/1 * * * *'
 
 jobs:
   copy-file:
