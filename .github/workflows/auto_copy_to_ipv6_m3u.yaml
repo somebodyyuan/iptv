@@ -17,10 +17,13 @@ jobs:
         env:
           OTHER_REPO_URL: https://github.com/fanmingming/live.git
           FILE_PATH: tv/m3u/ipv6.m3u
-          DEST_PATH: iptv_v1_ipv6.m3u
+          DEST_PATH: iptv_v1_ipv6_1.m3u
         run: |
           # 克隆另一个仓库到临时目录
           git clone "$OTHER_REPO_URL" temp-repo
+          
+          # 删除原始文件
+          rm -rf "$DEST_PATH"
           
           # 复制特定文件到你的仓库中的目标路径
           cp temp-repo/"$FILE_PATH" "$DEST_PATH"
