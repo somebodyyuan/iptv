@@ -1,0 +1,52 @@
+name: Copy File from Another Repo Daily
+
+on:
+  schedule:
+    - cron: '0 3 * * *' # 每天凌晨3点执行
+
+jobs:
+  copy-file:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout your repo
+        uses: actions/checkout@v2
+
+      - name: Fetch content from another repo
+        env:
+          OTHER_REPO_URL: https://github.com/fanmingming/live.git
+          FILE_PATH: tv/m3u/ipv6.m3u
+          DEST_PATH: iptv_v1_ipv6.m3u
+        run: |
+          # 克隆另一个仓库到临时目录
+          git clone "$OTHER_REPO_URL" temp-repo
+          
+          # 复制特定文件到你的仓库中的目标路径
+          cp temp-repo/"$FILE_PATH" "$DEST_PATH"
+          
+          # 如果需要，可以添加额外的步骤来处理文件（例如重命名、修改内容等）
+
+          # 清理临时仓库文件夹
+          rm -rf temp-repo
+
+      - name: Add, commit, and push changes
+        run: |
+          # 添加更改到暂存区
+          git add "$DEST_PATH"
+
+          # 提交更改（使用脚本化的committer信息）
+          git config --local user.name "github-actions-bot"
+          git config --local user.email "41898282+github-actions-bot@users.noreply.github.com"
+          git commit -m "Copied file from ${OTHER_REPO_URL#*//} to ${DEST_PATH}"
+
+          # 推送更改到你的仓库（确保你的仓库允许GitHub Actions提交更改）
+          git push
+
+    # 注意：通常不需要下面的行，因为上面的`git push`已经假设了你在正确的分支上
+    # 如果你需要指定分支，可以在上面的`git push`命令中添加分支名，或者在下面设置分支
+    # branches:
+    #   - main # 或你仓库中的其他分支名
+
+# 注意：上面的`git push`命令在没有设置密码或令牌的情况下可能不会工作
+# 你需要配置一个具有推送权限的GitHub令牌，并将其作为秘密存储在仓库中
+# 然后在工作流中使用该秘密来认证Git操作
