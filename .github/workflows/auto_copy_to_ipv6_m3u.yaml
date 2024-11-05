@@ -22,9 +22,6 @@ jobs:
           # 克隆另一个仓库到临时目录
           git clone "$OTHER_REPO_URL" temp-repo
           
-          # 删除原始文件
-          rm -rf "$DEST_PATH"
-          
           # 复制特定文件到你的仓库中的目标路径
           cp temp-repo/"$FILE_PATH" "$DEST_PATH"
           
@@ -33,16 +30,20 @@ jobs:
           # 清理临时仓库文件夹
           rm -rf temp-repo
 
-      - name: Add, commit, and push changes
+      - name: Add, commit, and push changes1
         run: |
           # 添加更改到暂存区
           git add "$DEST_PATH"
 
+      - name: Add, commit, and push changes2
+        run: |
           # 提交更改（使用脚本化的committer信息）
           git config --local user.name "github-actions-bot"
           git config --local user.email "41898282+github-actions-bot@users.noreply.github.com"
           git commit -m "Copied file from ${OTHER_REPO_URL#*//} to ${DEST_PATH}"
 
+      - name: Add, commit, and push changes3
+        run: |
           # 推送更改到你的仓库（确保你的仓库允许GitHub Actions提交更改）
           git push
 
