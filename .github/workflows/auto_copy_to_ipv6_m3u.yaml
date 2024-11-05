@@ -12,7 +12,7 @@ jobs:
     env:
       OTHER_REPO_URL: https://github.com/fanmingming/live.git
       FILE_PATH: tv/m3u/ipv6.m3u
-      DEST_PATH: iptv_v1_ipv6_1.m3u
+      DEST_PATH: iptv_v1_ipv6.m3u
 
     steps:
       - name: Checkout your repo
