@@ -1,9 +1,9 @@
-name: Copy iptv epg File from url Daily
+name: Copy iptv epg file from url daily
  
 on:
   schedule:
     # - cron: '15 19 * * *' # 每天凌晨3点15分执行，19+8-24=3
-    - cron: '*/1 * * * *'
+    - cron: '34 15 * * *'
  
 jobs:
   copy-file:
