@@ -1,9 +1,11 @@
 name: Copy iptv ipv6 m3u file from url daily
  
 on:
+  workflow_dispatch:
+
   schedule:
-    # - cron: '30 19 * * *' # 每天凌晨3点30分执行，19+8-24=3
-    - cron: '35 15 * * *'
+    - cron: '30 19 * * *' # 每天凌晨3点30分执行，19+8-24=3
+    # - cron: '35 15 * * *'
  
 jobs:
   copy-file:
