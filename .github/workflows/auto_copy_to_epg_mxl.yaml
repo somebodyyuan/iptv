@@ -1,4 +1,4 @@
-name: Daily File Copy
+name: Copy iptv epg File from url Daily
  
 on:
   schedule:
