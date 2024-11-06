@@ -1,4 +1,4 @@
-name: Copy ipv6 m3u File from Another Repo Daily
+name: Copy ipv6 m3u file from another repo daily
 
 on:
   schedule:
