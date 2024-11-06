@@ -1,6 +1,8 @@
 name: Copy ipv6 m3u file from another repo daily
 
 on:
+  workflow_dispatch:
+
   schedule:
     - cron: '0 19 * * *' # 每天凌晨3点执行，19+8-24=3
     # - cron: '*/5 * * * *'
