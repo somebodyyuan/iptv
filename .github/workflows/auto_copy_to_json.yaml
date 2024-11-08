@@ -1,0 +1,36 @@
+name: Copy iptv ipv6 m3u file from url daily
+ 
+on:
+  workflow_dispatch:
+
+  schedule:
+    - cron: '45 19 * * *' # 每天凌晨3点45分执行，19+8-24=3
+    # - cron: '35 15 * * *'
+ 
+jobs:
+  copy-file:
+    runs-on: ubuntu-latest
+
+    env:
+      FILE_URL: 'https://gitee.com/xinhaozhang2019/kdyjk/raw/master/tv/byjk.json' # 替换为实际文件URL
+      LOCAL_PATH: './iptv_tvbox.json' # 替换为实际保存路径
+ 
+    steps:
+    - name: Checkout repository
+      uses: actions/checkout@v2
+ 
+    - name: Set up environment 
+      run: |
+        # 下载文件
+        wget $FILE_URL -O $LOCAL_PATH
+ 
+        # 添加文件到git
+        git add $LOCAL_PATH
+ 
+        # 提交更改（注意：这里需要处理提交信息，可能需要额外逻辑来避免重复提交相同内容）
+        git config --global user.name 'your-username' # 替换为你的GitHub用户名
+        git config --global user.email 'your-email@example.com' # 替换为你的GitHub邮箱
+        git commit -m "Automated file copy from $FILE_URL"
+ 
+        # 推送到GitHub
+        git push
