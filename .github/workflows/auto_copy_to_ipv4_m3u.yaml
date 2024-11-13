@@ -1,0 +1,44 @@
+name: Copy ipv4 m3u file from docker image daily
+
+on:
+  workflow_dispatch:
+
+  schedule:
+    - cron: '45 18 * * *' # 每天凌晨3点执行，19+8-24=3
+    # - cron: '*/5 * * * *'
+    
+jobs:
+  download-and-upload:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v3
+
+      - name: Set up Docker Buildx
+        uses: docker/setup-buildx-action@v2
+
+      # - name: Login to DockerHub
+      #   run: echo "${{ secrets.DOCKER_PASSWORD }}" | docker login -u "${{ secrets.DOCKER_USERNAME }}" --password-stdin
+
+      # - name: Pull Docker image
+      #   run: docker pull example/image:tag
+
+      - name: Run container and copy file
+        run: |
+          CONTAINER_ID=$(docker run -d --restart unless-stopped --net=host --privileged=true -p 35455:35455 --name allinone youshandefeiyang/allinone)
+          curl "http://127.0.0.1:35455/tv.m3u" -o ./iptv_v2_ipv4.m3u
+          curl "http://127.0.0.1:35455/tptv.m3u" -o ./iptv_v3_ipv4.m3u
+          docker rm -f "$CONTAINER_ID"
+
+      - name: Commit and push changes
+        run: |
+          git config --local user.email "your-email@example.com"
+          git config --local user.name "your-username"
+          git add file-to-upload
+          git commit -m "Uploading file-to-upload from Docker container" || true  # || true to avoid failing if no changes
+          git push
+
+    # env:
+    #   DOCKER_USERNAME: ${{ secrets.DOCKER_USERNAME }}
+    #   DOCKER_PASSWORD: ${{ secrets.DOCKER_PASSWORD }}
