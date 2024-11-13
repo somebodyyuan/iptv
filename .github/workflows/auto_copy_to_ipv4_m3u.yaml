@@ -4,7 +4,7 @@ on:
   workflow_dispatch:
 
   schedule:
-    - cron: '45 18 * * *' # 每天凌晨3点执行，19+8-24=3
+    # - cron: '45 18 * * *' # 每天凌晨3点执行，19+8-24=3
     # - cron: '*/5 * * * *'
     
 jobs:
